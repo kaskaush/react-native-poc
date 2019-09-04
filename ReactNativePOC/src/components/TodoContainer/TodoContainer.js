@@ -1,54 +1,106 @@
-import React, {Fragment, useState} from 'react';
+import React, {Fragment, useState, useEffect} from 'react';
+import {StyleSheet, View, Modal, FlatList} from 'react-native';
 import {
-  StyleSheet,
-  View,
-  Text,
   Button,
-  Modal,
-  TouchableHighlight,
-} from 'react-native';
+  Text,
+  Container,
+  Header,
+  Left,
+  Body,
+  Title,
+  Right,
+  Icon,
+  Fab,
+} from 'native-base';
+import TodoItem from '../TodoItem/TodoItem';
+import AddTodo from '../AddTodo/AddTodo';
 
 const TodoContainer = props => {
-  const [counter, setCounter] = useState(0);
   const [showModal, setShowModal] = useState(false);
-
-  const incrementCounter = () => {
-    setCounter(counter + 1);
-  };
-  const resetCounter = () => {
-    if (counter > 0) {
-      setCounter(0);
-      toggleModal();
-    }
-  };
-
   const toggleModal = () => {
     setShowModal(!showModal);
   };
+
+  const [todoList, setTodoList] = useState([]);
+
+  useEffect(() => {
+    const todos = [
+      {
+        id: '1',
+        title: 'first todo',
+        description: 'hello',
+      },
+      {
+        id: '2',
+        title: 'second todo',
+        description: 'world',
+      },
+      {
+        id: '3',
+        title: 'second todo',
+        description: 'world',
+      },
+      {
+        id: '4',
+        title: 'second todo',
+        description: 'world',
+      },
+      {
+        id: '5',
+        title: 'second todo',
+        description: 'world',
+      },
+      {
+        id: '6',
+        title: 'second todo',
+        description: 'world',
+      },
+      {
+        id: '7',
+        title: 'second todo',
+        description: 'world',
+      },
+      {
+        id: '8',
+        title: 'second todo',
+        description: 'world',
+      },
+    ];
+    setTodoList(todos);
+  }, []);
+
   return (
     <Fragment>
-      <View style={styles.body}>
-        <View style={styles.sectionContainer}>
-          <Text style={styles.counterDisplay}>{counter}</Text>
-        </View>
-        <View style={styles.sectionContainer}>
-          <Button onPress={incrementCounter} title={'Click me!'} />
-        </View>
-        <View style={styles.resetCounterStyle}>
-          <Button onPress={resetCounter} title={'Reset'} />
-        </View>
-      </View>
+      <Header noLeft>
+        <Left />
+        <Body>
+          <Title>Todo App</Title>
+        </Body>
+        <Right />
+      </Header>
+      <Container style={styles.body}>
+        <FlatList
+          data={todoList}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <TodoItem
+              key={item.id}
+              title={item.title}
+              description={item.description}
+            />
+          )}
+          keyExtractor={item => item.id}
+        />
+        <Fab position="bottomRight" onPress={toggleModal}>
+          <Icon name="add" type="MaterialIcons" />
+        </Fab>
+      </Container>
       <Modal
-        animationType="slide"
+        animationType="fade"
         transparent={false}
         visible={showModal}
         onRequestClose={toggleModal}>
-        <View>
-          <Text>Counter reset!</Text>
-          <TouchableHighlight onPress={toggleModal}>
-            <Text>Hide Modal</Text>
-          </TouchableHighlight>
-        </View>
+        <AddTodo />
       </Modal>
     </Fragment>
   );
@@ -56,33 +108,17 @@ const TodoContainer = props => {
 
 const styles = StyleSheet.create({
   body: {
-    backgroundColor: '#000',
-    display: 'flex',
+    backgroundColor: '#eee',
     position: 'relative',
+    paddingLeft: 8,
+    paddingRight: 8,
   },
-  sectionContainer: {
-    display: 'flex',
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  counterDisplay: {color: '#fff'},
-  stickyHeader: {
-    backgroundColor: '#464646',
-    color: '#fff',
-    paddingTop: 8,
-    paddingLeft: 6,
-    paddingBottom: 8,
-    top: 0,
-    left: 0,
+  addButtonStyle: {
     position: 'absolute',
-  },
-  resetCounterStyle: {
-    display: 'flex',
-    marginTop: 20,
-    paddingHorizontal: 24,
+    bottom: 0,
+    right: 0,
+    margin: 10,
+    borderRadius: 50,
   },
 });
 

@@ -14,7 +14,7 @@ const App = () => {
   return (
     <Fragment>
       <StatusBar />
-      <SafeAreaView style={{flex: 1, backgroundColor: '#000'}}>
+      <SafeAreaView style={{flex: 1, backgroundColor: '#eee'}}>
         <TodoContainer />
       </SafeAreaView>
     </Fragment>
